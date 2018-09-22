@@ -9,7 +9,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost/ksiegarnia</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.serverTimezone">UTC</property>
-        <property name="hibernate.connection.password">iQor1010!</property>
+        <property name="hibernate.connection.password">PASSWORD</property>
         <property name="hibernate.show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="generate_statistics">true</property>
@@ -17,5 +17,6 @@
         <mapping class = "com.sda.hibernate.entity.Book"></mapping>
         <mapping class = "com.sda.hibernate.entity.Category"></mapping>
         <mapping class = "com.sda.hibernate.entity.Publisher"></mapping>
+        <mapping class = "com.sda.hibernate.entity.Author"></mapping>
     </session-factory>
 </hibernate-configuration>

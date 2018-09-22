@@ -7,8 +7,20 @@
     <groupId>HIBERNATE</groupId>
     <artifactId>HIBERNATE</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-<dependencies>
+    <dependencies>
     <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
     <dependency>
         <groupId>org.hibernate</groupId>
@@ -31,6 +43,13 @@
         <scope>provided</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.3.1</version>
+        <scope>test</scope>
+    </dependency>
 
 
 </dependencies>
