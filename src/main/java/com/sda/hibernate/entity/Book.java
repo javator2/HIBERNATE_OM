@@ -7,33 +7,33 @@ import java.util.Set;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)          // wybieranie sposobu w jaki ma byc ustawiany klucz
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column                                                      // @Column(name =" ") sluzy do zmieniania nazwy kolumny
+    @Column
     private String title;
     @Column
     private String isbn;
-    @Column
-    private String author;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Author> authors;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Publisher publisher;
-
-    public Book(String title, String isbn, String author) {
+    public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
-        this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public Book() {
     }
 
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
+    public Set<Author> getAuthors() {
+        return authors;
     }
 
     public void setCategory(Category category) {
@@ -64,11 +64,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }

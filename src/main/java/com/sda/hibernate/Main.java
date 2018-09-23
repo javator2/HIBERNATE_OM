@@ -1,90 +1,62 @@
 package com.sda.hibernate;
 
+import com.sda.hibernate.config.HibernateUtils;
+import com.sda.hibernate.entity.Author;
 import com.sda.hibernate.entity.Book;
 import com.sda.hibernate.entity.Category;
-import com.sda.hibernate.entity.Publisher;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import com.sda.hibernate.service.AuthorService;
+import com.sda.hibernate.service.BookService;
+import com.sda.hibernate.service.CategoryService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
-    private static final SessionFactory sessionFactory;
 
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
+    public static void main(final String[] args)   {
 
-        }
-    }
+        CategoryService categoryService = new CategoryService();
+        AuthorService authorService = new AuthorService();
 
-    public static Session getSession() {
-        return sessionFactory.openSession();
-    }
+        Category category = new Category();
+        category.setName("Nowa_uwaga_na_duplikaty");
+        categoryService.save(category);
 
-    public static void main(String[] args) {
+        Author author = new Author();
+        author.setName("Nowy autor");
 
-        Book book = new Book();
-        book.setAuthor("Jan");
-        book.setIsbn("324-234");
-        book.setTitle("Nowe");
+        authorService.save(author);
 
-        Book book1 = new Book("Kolejne", "2", "Mirek");
+        BookService bookService = new BookService();
 
-        Session session = getSession();
-        Transaction tx = session.getTransaction();
+        Author author1 = new Author();
+        author1.setName("Autor");
+        author1.setLastname("Nazwisko");
 
-        tx.begin();
-        session.save(book);
-        session.save(book1);
-        tx.commit();
+        Set<Author> authorSet = new HashSet<>();
+        authorSet.add(author1);
 
-        tx.begin();
-        Book book2 = new Book("Nastepne", "3", "Kazik");
-        session.save(book2);
-        tx.commit();
+        Category category1 = new Category();
+        category1.setName("TESTOWA");
 
-        tx.begin();
-        Category category = new Category("Adamowski ");
-        session.save(category);
-        Category category1 = new Category("Jeszcze kto inny");
-        session.save(category1);
-        tx.commit();
+        Book s = new Book();
+        s.setCategory(category1);
+        s.setAuthors(authorSet);
+        s.setTitle("Tytul");
+        bookService.save(s);
 
-/*
-        List<Book> bookList = session.createQuery("from " + Book.class.getName()).list();
-        for (Book b : bookList){
-            b = (Book) session.createQuery("delete from book where " + b.getTitle() + " = 'Nowe'").uniqueResult();
-            System.out.println(b.getAuthor() + " " + b.getTitle());
-        }
 
-*/
+//        for(Book book: bookService.findAll()){
+//            System.out.println("Tytul: " + book.getTitle());
+//            System.out.println("Autorzy: ");
+//            for (Author a: book.getAuthors()){
+//                System.out.println(a.getName() + " " + a.getLastname());
+//            }
+//            System.out.println("Kategoria: " + book.getCategory().getName());
+//
+//        }
 
-/*        Book book3 = session.byId(Book.class).getReference(1);            // usuwanie ksiazki
-        System.out.println(book3);
-
-        tx.begin();
-        session.delete(book3);
-        tx.commit();
-
-        session.close();*/
-        Publisher publisher = new Publisher("PWN", "Mickiewicza", "Torun");
-        Category category2 = new Category("Fantastyka67");
-        Book book3 = new Book();
-        book3.setTitle("Jeszcze jedna");
-        book3.setIsbn("3245-54353-432");
-        book3.setAuthor("Antek");
-        book3.setCategory(category2);
-        book3.setPublisher(publisher);
-
-        tx.begin();
-        session.save(book3);
-        tx.commit();
-        session.close();
+//        HibernateUtils.closeConnection();
     }
 }
